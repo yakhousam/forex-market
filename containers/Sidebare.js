@@ -3,7 +3,7 @@ import PriceRow from '../components/PriceRow'
 
 const Sidebare = ({prices=[]}) => {
   const pricesArr = prices.map((p) => {
-    return <PriceRow currency={p.currency.slice(0, 4)} price={p.price} />
+    return <PriceRow key={p.currency} currency={p.currency.slice(0, 4)} price={p.price} />
   }
   )
   return (
