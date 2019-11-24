@@ -10,9 +10,13 @@ const PriceRow = ({currency, price}) => {
           display: flex;
           border: thin solid black;
         }
-        .currency, .price{
+        .price{
           flex: 1;
-          text-align: center;
+          text-align: right;
+        }
+        .currency{
+          flex: 1;
+          
         }
       `}</style>
     </div>
