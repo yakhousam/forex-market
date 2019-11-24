@@ -1,1 +1,1 @@
-# forex-market
+# Forex market
