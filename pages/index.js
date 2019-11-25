@@ -14,6 +14,7 @@ function Page({ prices = [] }) {
           display: grid;
           grid-template: 80px 1fr 50px / 300px 1fr;
           height: 100vh;
+          background-color: #1d3341;
         }
       `}</style>
       <style global jsx>{`

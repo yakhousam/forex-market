@@ -8,6 +8,7 @@ const ChartContainer = () => {
         grid-row: 2;
         grid-column: 2;
         border: solid black thin;
+        background-color: #1e3b4b;
       `}</style>
     </div>
   );

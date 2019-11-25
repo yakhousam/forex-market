@@ -7,7 +7,8 @@ const Header = () => {
       <style jsx>{`
         grid-row: 1;
         grid-column: 1 / span 2;
-        border: solid black thin;
+       
+        background-color: #1d3341;
       `}</style>
     </header>
   );
