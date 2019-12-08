@@ -1,13 +1,13 @@
 import React from "react";
-import PriceRow from "../components/PriceRow";
+import CurrencyRow from "../components/CurrencyRow";
 
-const Sidebare = ({ prices = [] }) => {
-  const pricesArr = prices.map(p => {
-    return <PriceRow {...p} />;
+const Sidebare = ({ currencies = [] }) => {
+  const currenciesArr = currencies.map(currency => {
+    return <CurrencyRow {...currency} />;
   });
   return (
     <div>
-      {pricesArr}
+      {currenciesArr}
       <style jsx>{`
         grid-row: 2;
         grid-column: 1;
