@@ -31,7 +31,8 @@ function Page({ prices = [] }) {
 }
 
 Page.getInitialProps = async ({ req }) => {
-  const res = await fetch('https://api.nomics.com/v1/prices?key=4d2553a2b5a8f7c320ea1593e5d7ec92')
+  const currencies = 'BTC,ETH,XRP,LTC,BCH'
+  const res = await fetch(`https://api.nomics.com/v1/currencies/ticker?key=4d2553a2b5a8f7c320ea1593e5d7ec92&ids=${currencies}`)
   console.log("res =", res.status);
   const data = await res.json();
   return { prices: data };

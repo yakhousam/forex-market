@@ -14,6 +14,7 @@ const Sidebare = ({ prices = [] }) => {
         overflow: auto;
         background-color: #1e3b4b;
         scrollbar-color: #1e3b4b #1d3341;
+        color: white;
       `}</style>
     </div>
   );
