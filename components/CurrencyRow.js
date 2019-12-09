@@ -1,36 +1,41 @@
-import React from 'react'
+import React from "react";
 
-const PriceRow = ({name, price, logo_url, ...rest}) => {
-  console.log('logo =', logo_url)
-  console.log(rest)
+const PriceRow = ({ name, price, logo_url, ...rest }) => {
+  let formatPrice = parseFloat(price);
+  formatPrice =
+    formatPrice < 1
+      ? formatPrice.toFixed(6)
+      : formatPrice < 10
+      ? formatPrice.toFixed(4)
+      : formatPrice.toFixed(2);
+
   return (
-    <div className='price-row'>
+    <div className="price-row">
       <img src={logo_url} />
-      <div className='name'>{name}</div>
-      <div className='price'>{price}</div>
+      <div className="name">{name}</div>
+      <div className="price">${formatPrice}</div>
       <style jsx>{`
-        .price-row{
+        .price-row {
           display: flex;
           border: thin solid black;
           align-items: center;
           padding: 5px;
         }
-        .price{
+        .price {
           flex: 1;
           text-align: right;
         }
-        .name{
+        .name {
           flex: 1;
-          
         }
-        img{
+        img {
           height: 40px;
           width: 40px;
           margin-right: 5px;
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-export default PriceRow
+export default PriceRow;
