@@ -1,9 +1,9 @@
 import React from "react";
 import CurrencyRow from "../components/CurrencyRow";
 
-const Sidebare = ({ currencies = [] }) => {
+const Sidebare = ({ currencies = [], setChartData }) => {
   const currenciesArr = currencies.sort((a, b) => a.name.localeCompare(b.name)).map(currency => {
-    return <CurrencyRow {...currency} />;
+    return <CurrencyRow {...currency} setChartData={setChartData} />;
   });
   return (
     <div>
