@@ -15,7 +15,7 @@ function Page({ currencies = [] }) {
     <div className="grid-container">
       <Header />
       <Sidebare currencies={currencies} setChartData={setChartData} />
-      <ChartContainer />
+      <ChartContainer {...state.chartData} />
       <Footer />
       <style jsx>{`
         .grid-container {

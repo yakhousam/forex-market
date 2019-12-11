@@ -3,7 +3,7 @@ import CurrencyRow from "../components/CurrencyRow";
 
 const Sidebare = ({ currencies = [], setChartData }) => {
   const currenciesArr = currencies.sort((a, b) => a.name.localeCompare(b.name)).map(currency => {
-    return <CurrencyRow {...currency} setChartData={setChartData} />;
+    return <CurrencyRow key={currency.id} {...currency} setChartData={setChartData} />;
   });
   return (
     <div>

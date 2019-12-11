@@ -1,6 +1,9 @@
 import React from "react";
 
-const ChartContainer = () => {
+const ChartContainer = ({currency, prices=[], timestamps=[]}) => {
+  console.log('currency =', currency)
+  console.log('prices =', prices)
+  console.log('timestamps =', timestamps)
   return (
     <div>
       ChartContainer

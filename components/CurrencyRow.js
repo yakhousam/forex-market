@@ -1,8 +1,7 @@
 import React from "react";
 import fetch from "isomorphic-unfetch";
 
-const PriceRow = ({
-  id,
+const CurrencyRow = ({
   name,
   price,
   logo_url,
@@ -37,7 +36,7 @@ const PriceRow = ({
   };
 
   return (
-    <div key={id} className="price-row" onClick={getSparkline}>
+    <div className="price-row" onClick={getSparkline}>
       <img src={logo_url} />
       <div className="name">{name}</div>
       <div className="price">${formatPrice}</div>
@@ -65,4 +64,4 @@ const PriceRow = ({
   );
 };
 
-export default PriceRow;
+export default CurrencyRow;
