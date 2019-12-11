@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import fetch from "isomorphic-unfetch";
 import { Header, Sidebare, ChartContainer, Footer } from "../containers";
 
 function Page({ currencies = [] }) {
+  const [state, setState] = useState({
+    currency: '',
+    chartData: {}
+  })
+  const setChartData = (data) => {
+    setState({...state, chartData:{...data}})
+    console.log("data =", data)
+  }
+  
   return (
     <div className="grid-container">
       <Header />
-      <Sidebare currencies={currencies} />
+      <Sidebare currencies={currencies} setChartData={setChartData} />
       <ChartContainer />
       <Footer />
       <style jsx>{`
