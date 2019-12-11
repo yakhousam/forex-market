@@ -1,22 +1,18 @@
-import React, { useRef, useEffect, useState, useLayoutEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
 const Chart = ({ currency, prices = [], timestamps = [] }) => {
   const svgRef = useRef();
-  const [width, setWidth] = useState(0)
-  const [height, setHeight] = useState(0)
-  useLayoutEffect(() => {
-    console.log('uselayout effect')
-    setWidth(svgRef.current.clientWidth);
-    setHeight(svgRef.current.clientHeight);
-  },[svgRef.current])
+
   useEffect(() => {
-    console.log('width, height', width, height)
+    const width = svgRef.current.clientWidth;
+    const height = svgRef.current.clientHeight;
+    console.log("width, height", width, height);
     const svg = d3.select(svgRef.current);
     //clean the svg element
-    svg.selectAll('g').remove()
+    svg.selectAll('*').remove();
     // svg.append("g").attr("transform", "translate(10px, 10px)");
-  
+
     let x = d3
       .scaleLinear()
       .domain([0, timestamps.length])
@@ -32,7 +28,7 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
       .domain([
         0,
         d3.max(prices, function(d) {
-          return +d.value;
+          return +d;
         })
       ])
       .range([height, 0]);
@@ -40,7 +36,25 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
       .append("g")
       .attr("stroke", "orange")
       .call(d3.axisLeft(y));
-  },[height, width]);
+
+    svg
+      .append("path")
+      .datum(prices)
+      .attr("fill", "none")
+      .attr("stroke", "#6de576")
+      .attr("stroke-width", 1.5)
+      .attr(
+        "d",
+        d3
+          .line()
+          .x((d, i) => {
+            return x(i);
+          })
+          .y(d => {
+            return y(d);
+          })
+      );
+  }, [currency, prices, timestamps]);
 
   console.log("currency =", currency);
   console.log("prices =", prices);
