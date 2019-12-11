@@ -1,12 +1,11 @@
 import React from "react";
+import Chart from '../components/Chart'
 
-const ChartContainer = ({currency, prices=[], timestamps=[]}) => {
-  console.log('currency =', currency)
-  console.log('prices =', prices)
-  console.log('timestamps =', timestamps)
+const ChartContainer = (props) => {
+  
   return (
     <div>
-      ChartContainer
+      <Chart {...props} />
       <style jsx>{`
         grid-row: 2;
         grid-column: 2;
