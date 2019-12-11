@@ -5,8 +5,8 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
   const svgRef = useRef();
 
   useEffect(() => {
-    const width = svgRef.current.clientWidth;
-    const height = svgRef.current.clientHeight;
+    const width = svgRef.current.clientWidth ;
+    const height = svgRef.current.clientHeight - 150 ;
     console.log("width, height", width, height);
     const svg = d3.select(svgRef.current);
     //clean the svg element
@@ -20,7 +20,7 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
     svg
       .append("g")
       .style("stroke", "orange")
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", `translate(0, ${height} )`)
       .call(d3.axisBottom(x));
 
     let y = d3
@@ -66,6 +66,8 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
         svg {
           width: 100%;
           height: 100%;
+          padding: 50px;
+         
         }
       `}</style>
     </>
