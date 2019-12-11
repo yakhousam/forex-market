@@ -17,12 +17,9 @@ const CurrencyRow = ({
       : formatPrice.toFixed(2);
 
   const getSparkline = async () => {
-    const key = "4d2553a2b5a8f7c320ea1593e5d7ec92&ids";
-    const start = "2019-12-11T00:00:00Z";
     try {
-      const res = await fetch(
-        `https://api.nomics.com/v1/currencies/sparkline?key=${key}&start=${start}`
-      );
+      const res = await fetch('api/sparkline');
+      console.log('res status =', res.status)
       if (res.status === 200) {
         const json = await res.json();
         console.log("json =", json);
