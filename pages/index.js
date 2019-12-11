@@ -9,7 +9,6 @@ function Page({ currencies = [] }) {
   })
   const setChartData = (data) => {
     setState({...state, chartData:{...data}})
-    console.log("data =", data)
   }
   
   return (
