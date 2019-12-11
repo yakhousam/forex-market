@@ -13,6 +13,8 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
   useEffect(() => {
     console.log('width, height', width, height)
     const svg = d3.select(svgRef.current);
+    //clean the svg element
+    svg.selectAll('g').remove()
     // svg.append("g").attr("transform", "translate(10px, 10px)");
   
     let x = d3
