@@ -5,13 +5,15 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
   const svgRef = useRef();
 
   useEffect(() => {
-    const width = svgRef.current.clientWidth ;
-    const height = svgRef.current.clientHeight - 150 ;
+    const margin = {top: 20, right: 20, bottom: 20, left: 50  }
+    const width = svgRef.current.clientWidth - margin.left - margin.right ;
+    const height = svgRef.current.clientHeight - margin.top - margin.bottom;
+   
     console.log("width, height", width, height);
     const svg = d3.select(svgRef.current);
     //clean the svg element
     svg.selectAll('*').remove();
-    // svg.append("g").attr("transform", "translate(10px, 10px)");
+   
 
     let x = d3
       .scaleLinear()
@@ -20,7 +22,7 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
     svg
       .append("g")
       .style("stroke", "orange")
-      .attr("transform", `translate(0, ${height} )`)
+      .attr("transform", `translate(${margin.left}, ${height} )`)
       .call(d3.axisBottom(x));
 
     let y = d3
@@ -35,9 +37,12 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
     svg
       .append("g")
       .attr("stroke", "orange")
+      .attr("transform", `translate(${margin.left})`)
       .call(d3.axisLeft(y));
 
     svg
+      .append('g')
+      .attr("transform", `translate(${margin.left})`)
       .append("path")
       .datum(prices)
       .attr("fill", "none")
@@ -66,7 +71,6 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
         svg {
           width: 100%;
           height: 100%;
-          padding: 50px;
          
         }
       `}</style>

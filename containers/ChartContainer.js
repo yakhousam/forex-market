@@ -11,6 +11,7 @@ const ChartContainer = (props) => {
         grid-column: 2;
         border: solid black thin;
         background-color: #1e3b4b;
+        padding-top: 20px;
       `}</style>
     </div>
   );
