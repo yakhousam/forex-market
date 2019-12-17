@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-const Chart = ({ currency, prices = [], timestamps = [] }) => {
+const Chart = ({chartData}) => {
+  console.log('chartdata =', chartData)
   const svgRef = useRef();
+  // const arr = [...props]
 
   useEffect(() => {
     const margin = {top: 20, right: 20, bottom: 20, left: 50  }
@@ -17,7 +19,7 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
 
     let x = d3
       .scaleLinear()
-      .domain([0, timestamps.length])
+      .domain([0, chartData.length])
       .range([0, width]);
     svg
       .append("g")
@@ -28,10 +30,8 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
     let y = d3
       .scaleLinear()
       .domain([
-        0,
-        d3.max(prices, function(d) {
-          return +d;
-        })
+        d3.min(chartData.map(el => el[3])),
+        d3.max(chartData.map(el => el[2]))
       ])
       .range([height, 0]);
     svg
@@ -44,7 +44,7 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
       .append('g')
       .attr("transform", `translate(${margin.left})`)
       .append("path")
-      .datum(prices)
+      .datum(chartData)
       .attr("fill", "none")
       .attr("stroke", "#6de576")
       .attr("stroke-width", 1.5)
@@ -56,14 +56,12 @@ const Chart = ({ currency, prices = [], timestamps = [] }) => {
             return x(i);
           })
           .y(d => {
-            return y(d);
+            return y(d[4]);
           })
       );
-  }, [currency, prices, timestamps]);
+  }, [chartData]);
 
-  console.log("currency =", currency);
-  console.log("prices =", prices);
-  console.log("timestamps =", timestamps);
+ 
   return (
     <>
       <svg ref={svgRef} />

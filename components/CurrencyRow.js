@@ -23,9 +23,8 @@ const CurrencyRow = ({
       if (res.status === 200) {
         const json = await res.json();
         console.log("json =", json);
-        const sparkline = json.find(el => el.currency === currency);
-        console.log("sparkline =", sparkline);
-        setChartData(sparkline);
+       
+        setChartData(json);
       }
     } catch (error) {
       console.error(error);

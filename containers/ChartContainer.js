@@ -1,11 +1,11 @@
 import React from "react";
 import Chart from '../components/Chart'
 
-const ChartContainer = (props) => {
+const ChartContainer = ({chartData}) => {
   
   return (
     <div>
-      <Chart {...props} />
+      <Chart chartData={chartData} />
       <style jsx>{`
         grid-row: 2;
         grid-column: 2;

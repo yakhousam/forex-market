@@ -5,17 +5,17 @@ import { Header, Sidebare, ChartContainer, Footer } from "../containers";
 function Page({ currencies = [] }) {
   const [state, setState] = useState({
     currency: '',
-    chartData: {}
+    chartData:[]
   })
   const setChartData = (data) => {
-    setState({...state, chartData:{...data}})
+    setState({...state, chartData:[...data]})
   }
   
   return (
     <div className="grid-container">
       <Header />
       <Sidebare currencies={currencies} setChartData={setChartData} />
-      <ChartContainer {...state.chartData} />
+      <ChartContainer chartData={state.chartData} />
       <Footer />
       <style jsx>{`
         .grid-container {
