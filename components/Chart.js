@@ -18,6 +18,13 @@ const Chart = ({ chartData }) => {
     //clean the svg element
     svg.selectAll("*").remove();
 
+    // x = d3.scaleBand()
+    // .domain(d3.timeDay
+    //     .range(data[0].date, +data[data.length - 1].date + 1)
+    //     .filter(d => d.getDay() !== 0 && d.getDay() !== 6))
+    // .range([margin.left, width - margin.right])
+    // .padding(0.2)
+
     let x = d3
       .scaleLinear()
       .domain([0, chartData.length])
@@ -43,8 +50,8 @@ const Chart = ({ chartData }) => {
 
     const g = svg
       .append("g")
-      .attr("stroke-linecap", "round")
-      .attr("stroke", "black")
+      // .attr("stroke-linecap", "round")
+      .attr("stroke", "white")
       .selectAll("g")
       .data(chartData)
       .join("g")
@@ -53,6 +60,14 @@ const Chart = ({ chartData }) => {
     g.append("line")
       .attr("y1", d => y(d[2]))
       .attr("y2", d => y(d[3]));
+    
+    g.append("line")
+    .attr("y1", d => y(d[1]))
+    .attr("y2", d => y(d[4]))
+    .attr("stroke", d => d[1] > d[4] ? d3.schemeSet1[0]
+        : d[4] > d[1] ? d3.schemeSet1[2]
+        : d3.schemeSet1[8])
+    .attr("stroke-width", 10);
 
     // svg
     //   .append('g')

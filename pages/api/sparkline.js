@@ -4,7 +4,7 @@ import fetch from "isomorphic-unfetch";
 export default async (req, res) => {
   const key = "4d2553a2b5a8f7c320ea1593e5d7ec92&ids";
   const start = "2019-01-01T00:00:00Z";
-  const url = 'https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=24'
+  const url = 'https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=50'
   console.log(url)
   try {
     // const response = await fetch(
