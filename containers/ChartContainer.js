@@ -1,10 +1,16 @@
 import React from "react";
 import Chart from '../components/Chart'
 
-const ChartContainer = ({chartData}) => {
+const ChartContainer = ({chartData, setChartData}) => {
   
   return (
     <div>
+      <button
+      onClick={() => {
+        setChartData([...chartData ,[0,6500,6460,6520,6520]])
+      }}
+      
+      >click me</button>
       <Chart chartData={chartData} />
       <style jsx>{`
        div{
