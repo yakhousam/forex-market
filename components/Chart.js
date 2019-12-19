@@ -9,14 +9,14 @@ const Chart = ({ chartData }) => {
   useEffect(() => {
     const margin = { top: 20, right: 20, bottom: 20, left: 50 };
     const width =
-      // chartData.length * 10 ||
+      chartData.length * 10 ||
       svgRef.current.clientWidth - margin.left - margin.right;
     const height = svgRef.current.clientHeight - margin.top - margin.bottom;
 
     console.log("width, height", width, height);
     const svg = d3.select(svgRef.current).attr("width", width);
     //clean the svg element
-    svg.selectAll("*").remove();
+    // svg.selectAll("*").remove();
 
     // x = d3.scaleBand()
     // .domain(d3.timeDay
@@ -29,45 +29,74 @@ const Chart = ({ chartData }) => {
       .scaleLinear()
       .domain([0, chartData.length])
       .range([0, width]);
-    svg
-      .append("g")
-      .style("stroke", "orange")
-      .attr("transform", `translate(${margin.left}, ${height} )`)
-      .call(d3.axisBottom(x));
+    // svg
+    //   .append("g")
+    //   .style("stroke", "orange")
+    //   .attr("transform", `translate(${margin.left}, ${height} )`)
+    //   .call(d3.axisBottom(x));
 
     let y = d3
       .scaleLinear()
       .domain([
-        d3.min(chartData.map(el => el[3]))/1.01,
+        d3.min(chartData.map(el => el[3])) / 1.01,
         d3.max(chartData.map(el => el[2]))
       ])
       .range([height, 0]);
-    svg
-      .append("g")
-      .attr("stroke", "orange")
-      .attr("transform", `translate(${margin.left})`)
-      .call(d3.axisLeft(y));
+    // svg
+    //   .append("g")
+    //   .attr("stroke", "orange")
+    //   .attr("transform", `translate(${margin.left})`)
+    //   .call(d3.axisLeft(y));
 
-    const g = svg
+    // var circle = svg.selectAll("circle").data(data);
+
+    // circle.exit().remove();
+
+    // circle
+    //   .enter()
+    //   .append("circle")
+    //   .attr("r", 2.5)
+    //   .merge(circle)
+    //   .attr("cx", function(d) {
+    //     return d.x;
+    //   })
+    //   .attr("cy", function(d) {
+    //     return d.y;
+    //   });
+
+    const candle = svg.selectAll(".candle").data(chartData);
+
+    candle.exit().remove();
+
+    const enter = candle
+      .enter()
       .append("g")
-      // .attr("stroke-linecap", "round")
+      .attr("class", "candle")
+      .attr("transform", (d, i) => {
+        console.log("i =", i, margin.left + x(i));
+        return `translate(${margin.left + x(i)})`;
+      });
+
+    enter
+      .append("line")
       .attr("stroke", "white")
-      .selectAll("g")
-      .data(chartData)
-      .join("g")
-      .attr("transform", (d,i) => `translate(${margin.left + x(i)})`)
-
-    g.append("line")
       .attr("y1", d => y(d[2]))
       .attr("y2", d => y(d[3]));
-    
-    g.append("line")
-    .attr("y1", d => y(d[1]))
-    .attr("y2", d => y(d[4]))
-    .attr("stroke", d => d[1] > d[4] ? d3.schemeSet1[0]
-        : d[4] > d[1] ? d3.schemeSet1[2]
-        : d3.schemeSet1[8])
-    .attr("stroke-width", 10);
+
+    enter
+      .append("line")
+      .attr("y1", d => y(d[1]))
+      .attr("y2", d => y(d[4]))
+      .attr("stroke", d =>
+        d[1] > d[4]
+          ? d3.schemeSet1[0]
+          : d[4] > d[1]
+          ? d3.schemeSet1[2]
+          : d3.schemeSet1[8]
+      )
+      .attr("stroke-width", 10);
+
+    candle.merge(candle);
 
     // svg
     //   .append('g')
@@ -88,7 +117,9 @@ const Chart = ({ chartData }) => {
     //         return y(d[4]);
     //       })
     //   );
-  }, [chartData]);
+    console.log("chart use effect....................");
+    console.log("chart length =", chartData.length);
+  }, [chartData, chartData.length]);
 
   return (
     <>
