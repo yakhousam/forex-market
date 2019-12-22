@@ -1,20 +1,42 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import * as d3 from "d3";
 
-const Chart = ({ chartData }) => {
-  console.log("chartdata =", chartData);
+const Chart = ({ symbol = "BTCUSDT" }) => {
   const svgRef = useRef();
-  // const arr = [...props]
+  const [chartData, setChartData] = useState([]);
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    const fetchChart = async () => {
+      console.log("fetch chart symbol = ", symbol);
+      try {
+        const res = await fetch(`api/sparkline?symbol=${symbol}`);
+        console.log("res status =", res.status);
+        if (res.status === 200) {
+          const json = await res.json();
+          console.log("json =", json);
+
+          setChartData(json);
+          setTime(json[json.length - 1][0]);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchChart();
+  }, [symbol]);
 
   useEffect(() => {
     const margin = { top: 20, right: 20, bottom: 20, left: 50 };
     const width =
-      chartData.length * 10 ||
+      chartData.length * 15  ||
       svgRef.current.clientWidth - margin.left - margin.right;
     const height = svgRef.current.clientHeight - margin.top - margin.bottom;
 
     console.log("width, height", width, height);
-    const svg = d3.select(svgRef.current).attr("width", width);
+  
+    const svg = d3.select(svgRef.current).attr("width", width + 100);
     //clean the svg element
     // svg.selectAll("*").remove();
 
@@ -64,7 +86,7 @@ const Chart = ({ chartData }) => {
     //     return d.y;
     //   });
 
-    const candle = svg.selectAll(".candle").data(chartData);
+    const candle = svg.selectAll(".candle").data(chartData, d => d);
 
     candle.exit().remove();
 
@@ -73,7 +95,6 @@ const Chart = ({ chartData }) => {
       .append("g")
       .attr("class", "candle")
       .attr("transform", (d, i) => {
-        console.log("i =", i, margin.left + x(i));
         return `translate(${margin.left + x(i)})`;
       });
 
@@ -119,7 +140,49 @@ const Chart = ({ chartData }) => {
     //   );
     console.log("chart use effect....................");
     console.log("chart length =", chartData.length);
+    console.log('chart last elememnt =', chartData[chartData.length -1])
   }, [chartData, chartData.length]);
+
+  const [socket, setSocket] = useState();
+  useEffect(() => {
+    console.log("useeffect socket............");
+    const url = `wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}@kline_1m`;
+    const newSocket = new WebSocket(url);
+    setSocket(newSocket);
+    console.log("establishing new socket.........");
+    return () => {
+      newSocket.close();
+    }
+    
+  }, [symbol]);
+
+  useEffect(() => {
+    
+    if (!socket) return;
+    console.log("socket state =", socket.readyState);
+    if (socket.readyState === 1) {
+      console.log("socket url =", socket.url);
+      console.log("socket protocol =", socket.protocol);
+    }
+    const updateChart = candle => {
+      // console.log("update chart", candle);
+      if (time === candle[0]) {
+        setChartData(c => [...c.slice(0, -1), candle]);
+      } else {
+        setChartData(c => [...c, candle]);
+        setTime(candle[0]);
+      }
+    };
+
+    socket.onmessage = event => {
+      const data = JSON.parse(event.data);
+      const d = data.k;
+      // console.log(d)
+      const candle = [d.t, d.o, d.h, d.l, d.c];
+      updateChart(candle);
+     
+    };
+  }, [symbol, socket, time]);
 
   return (
     <>
@@ -128,10 +191,15 @@ const Chart = ({ chartData }) => {
         svg {
           height: 100%;
           min-width: 100%;
+         
         }
       `}</style>
     </>
   );
+};
+
+Chart.propTypes = {
+  symbol: PropTypes.string
 };
 
 export default Chart;

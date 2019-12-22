@@ -32,7 +32,7 @@ const CurrencyRow = ({
   };
 
   return (
-    <div className="price-row" onClick={getSparkline}>
+    <div className="price-row" >
       <img src={logo_url} />
       <div className="name">{name}</div>
       <div className="price">${formatPrice}</div>
